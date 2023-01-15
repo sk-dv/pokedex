@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/data/pokedex_locator.dart';
 
@@ -6,6 +7,8 @@ import 'pages/pokedex.dart';
 
 void main() async {
   await PokedexLocator.setup();
+
+  // debugPaintSizeEnabled = true;
 
   runApp(const PokedexApp());
 }

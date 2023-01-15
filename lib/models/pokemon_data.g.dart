@@ -1,35 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pokemon_url.dart';
+part of 'pokemon_data.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PokemonUrlAdapter extends TypeAdapter<PokemonUrl> {
+class PokemonDataAdapter extends TypeAdapter<PokemonData> {
   @override
-  final int typeId = 2;
+  final int typeId = 1;
 
   @override
-  PokemonUrl read(BinaryReader reader) {
+  PokemonData read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PokemonUrl(
-      name: fields[0] as String,
-      url: fields[1] as String,
+    return PokemonData(
+      id: fields[0] as int,
+      pokemonUrl: fields[1] as PokemonUrl,
+      pokemon: fields[2] as Pokemon?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, PokemonUrl obj) {
+  void write(BinaryWriter writer, PokemonData obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.url);
+      ..write(obj.pokemonUrl)
+      ..writeByte(2)
+      ..write(obj.pokemon);
   }
 
   @override
@@ -38,7 +41,7 @@ class PokemonUrlAdapter extends TypeAdapter<PokemonUrl> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PokemonUrlAdapter &&
+      other is PokemonDataAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

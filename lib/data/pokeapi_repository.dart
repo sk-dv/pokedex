@@ -1,27 +1,45 @@
 import 'package:dio/dio.dart';
-
-import '../models/pokeapi_response.dart';
-import '../models/pokemon_url.dart';
+import 'package:pokedex/models/pokeapi_response.dart';
+import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/models/pokemon_data.dart';
 
 class PokeApiRepository {
   const PokeApiRepository(this._dio);
 
   final Dio _dio;
 
-  Future<List<PokemonUrl>> loadingPokemonUrls({
-    String url = 'https://pokeapi.co/api/v2/pokemon/?limit=100&offset=0',
-    List<PokemonUrl> urls = const [],
+  Future<List<PokemonData>> loadingPokemonUrls({
+    String url = 'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=100',
+    List<PokemonData> data = const [],
   }) async {
     try {
       final response = await _dio.get(url);
-      final api = PokeApiResponse.fromJson(response.data);
 
-      if (api.next == null) return urls;
+      final boundaries = url.split('?')[1].split('&');
+      final offset = int.parse(boundaries[0].split('=')[1]);
+      final limit = int.parse(boundaries[1].split('=')[1]);
+
+      final api = PokeApiResponse.fromJson(offset, limit, response.data);
+
+      if (api.next == null) return data;
 
       return await loadingPokemonUrls(
-          url: api.next!, urls: [...urls, ...api.results]);
+        url: api.next!,
+        data: [...data, ...api.results],
+      );
     } catch (e) {
       return [];
     }
+  }
+
+  Future<Pokemon> getPokemon(String url) async {
+    final pokemonResponse = await _dio.get(url);
+
+    final data = pokemonResponse.data;
+
+    final speciesUrl = data['species']['url'];
+    final speciesResponse = await _dio.get(speciesUrl);
+
+    return Pokemon.fromJson(data, speciesResponse.data);
   }
 }

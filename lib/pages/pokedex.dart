@@ -33,23 +33,26 @@ class _PokedexState extends State<Pokedex> {
           ),
           body: Container(
             margin: const EdgeInsets.all(30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  current.name,
-                  style: const TextStyle(
-                    fontSize: 34,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.5,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    current.name,
+                    style: const TextStyle(
+                      fontSize: 34,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.5,
+                    ),
                   ),
-                ),
-                BlocProvider(
-                  create: (_) => PokemonListCubit(
-                      PokedexLocator.locator.get<PokemonListController>()),
-                  child: const PokemonList(),
-                ),
-              ],
+                  BlocProvider(
+                    create: (_) => PokemonListCubit(
+                      PokedexLocator.locator.get<PokemonListController>(),
+                    )..cacheChecking(),
+                    child: const PokemonList(),
+                  ),
+                ],
+              ),
             ),
           ),
           bottomNavigationBar: PokedexNavbar(

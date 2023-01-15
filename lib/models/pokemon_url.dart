@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'pokemon_url.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
 class PokemonUrl {
   PokemonUrl({required this.name, required this.url});
 

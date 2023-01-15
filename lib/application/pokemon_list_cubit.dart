@@ -1,20 +1,25 @@
 import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:pokedex/data/pokemon_list_controller.dart';
-import 'package:pokedex/models/pokemon_url.dart';
+import 'package:pokedex/models/pokemon_data.dart';
 
 class PokemonListState {
-  const PokemonListState({required this.urls, required this.status});
+  const PokemonListState({required this.status, required this.pokemonData});
 
-  final List<PokemonUrl> urls;
   final FormzStatus status;
+  final List<PokemonData> pokemonData;
 
   static const PokemonListState empty =
-      PokemonListState(urls: [], status: FormzStatus.pure);
+      PokemonListState(status: FormzStatus.pure, pokemonData: []);
 
-  PokemonListState copy({List<PokemonUrl>? urls, FormzStatus? status}) {
+  PokemonListState copy({
+    FormzStatus? status,
+    List<PokemonData>? pokemonData,
+  }) {
     return PokemonListState(
-        urls: urls ?? this.urls, status: status ?? this.status);
+      status: status ?? this.status,
+      pokemonData: pokemonData ?? this.pokemonData,
+    );
   }
 }
 
@@ -26,11 +31,39 @@ class PokemonListCubit extends Cubit<PokemonListState> {
   void cacheChecking() async {
     emit(state.copy(status: FormzStatus.submissionInProgress));
 
-    final urls = await _controller.cacheChecking();
+    final data = await _controller.cacheChecking();
 
     emit(state.copy(
-      status: urls.isNotEmpty ? FormzStatus.valid : FormzStatus.invalid,
-      urls: urls,
+      status: data.isNotEmpty ? FormzStatus.valid : FormzStatus.invalid,
+      pokemonData: data,
     ));
+  }
+
+  void updatePokemonData() async {
+    emit(state.copy(status: FormzStatus.submissionInProgress));
+
+    final data = await _controller.retrievePokemonData(state.pokemonData);
+
+    emit(state.copy(
+      pokemonData: data,
+      status: data.isNotEmpty ? FormzStatus.valid : FormzStatus.invalid,
+    ));
+  }
+
+  String getPokemonIndex(int id) {
+    final digits = state.pokemonData.length.toString().length;
+
+    final idx = id.toString();
+
+    final missingZeros = '0' * (digits - idx.reversedAsList().length);
+    final reversedId = idx.reversedAsList().join() + missingZeros;
+
+    return reversedId.reversedAsList().join();
+  }
+}
+
+extension ReversedString on String {
+  List<String> reversedAsList() {
+    return runes.map((r) => String.fromCharCode(r)).toList().reversed.toList();
   }
 }
