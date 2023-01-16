@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_url.dart';
 

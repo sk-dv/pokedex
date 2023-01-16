@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+
 import 'package:pokedex/models/pokemon_color.dart';
 
 part 'pokemon.g.dart';

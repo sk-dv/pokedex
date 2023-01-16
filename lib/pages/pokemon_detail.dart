@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:pokedex/application/pokedex_cubit.dart';
 import 'package:pokedex/models/extended_build_context.dart';
 import 'package:pokedex/widgets/favorite_icon.dart';

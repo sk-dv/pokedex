@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:pokedex/application/pokedex_cubit.dart';
 import 'package:pokedex/widgets/favorites_content.dart';
 import 'package:pokedex/widgets/pokemon_list.dart';

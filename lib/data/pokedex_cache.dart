@@ -1,4 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_color.dart';
 import 'package:pokedex/models/pokemon_data.dart';

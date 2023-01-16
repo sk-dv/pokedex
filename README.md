@@ -30,3 +30,9 @@ Formato de código
 ```
 ~$ make linters
 ```
+
+Construcción en `debug` de la app
+
+```
+~$ make apk | fvm flutter build apk --debug
+```

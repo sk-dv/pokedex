@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import 'package:pokedex/models/pokeapi_response.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_data.dart';

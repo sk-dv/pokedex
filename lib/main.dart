@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:pokedex/data/pokedex_locator.dart';
 import 'package:pokedex/pages/pokemon_detail.dart';
 import 'package:pokedex/widgets/pokemon_route_data.dart';
-
 import 'application/pokedex_cubit.dart';
 import 'data/pokemon_list_controller.dart';
 import 'models/menu.dart';

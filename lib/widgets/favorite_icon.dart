@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:pokedex/models/pokemon_data.dart';
 
 class FavoriteIcon extends StatelessWidget {

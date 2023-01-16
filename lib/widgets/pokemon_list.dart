@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+
 import 'package:pokedex/application/pokedex_cubit.dart';
 import 'package:pokedex/widgets/wrapped_pokemon_list.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 class PokemonList extends StatelessWidget {
   const PokemonList(this.cubit, {super.key});

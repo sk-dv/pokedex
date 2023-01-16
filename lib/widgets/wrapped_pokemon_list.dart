@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
+
 import 'package:pokedex/application/pokedex_cubit.dart';
 import 'package:pokedex/models/menu.dart';
 import 'package:pokedex/models/pokemon_data.dart';
 import 'package:pokedex/widgets/favorite_icon.dart';
 import 'package:pokedex/widgets/pokemon_route_data.dart';
-
 import 'list_frame.dart';
 import 'pokemon_frame.dart';
 

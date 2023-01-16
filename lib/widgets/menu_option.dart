@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:pokedex/models/menu.dart';
 
 class MenuOption extends StatelessWidget {

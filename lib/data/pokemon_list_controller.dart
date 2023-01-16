@@ -1,6 +1,5 @@
 import 'package:pokedex/data/pokedex_cache.dart';
 import 'package:pokedex/models/pokemon_data.dart';
-
 import 'pokeapi_repository.dart';
 
 class PokemonListController {

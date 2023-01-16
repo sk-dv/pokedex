@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:pokedex/application/pokedex_cubit.dart';
 import 'package:pokedex/models/pokemon_data.dart';
 import 'package:pokedex/widgets/list_frame.dart';

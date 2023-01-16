@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+
 import 'package:pokedex/data/pokeapi_repository.dart';
 import 'package:pokedex/data/pokedex_cache.dart';
-
 import 'pokemon_list_controller.dart';
 
 class PokedexLocator {

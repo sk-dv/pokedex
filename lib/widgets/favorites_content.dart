@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:pokedex/application/pokedex_cubit.dart';
 import 'package:pokedex/models/menu.dart';
-
 import 'wrapped_pokemon_list.dart';
 
 class FavoritesList extends StatelessWidget {

@@ -11,3 +11,6 @@ linters:
 	fvm flutter pub run import_sorter:main lib\/* test\/*
 	fvm flutter format .
 	fvm flutter analyze
+
+apk: 
+	fvm flutter build apk --debug

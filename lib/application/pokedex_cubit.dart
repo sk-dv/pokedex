@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:formz/formz.dart';
+
 import 'package:pokedex/data/pokemon_list_controller.dart';
 import 'package:pokedex/models/pokemon_data.dart';
 
