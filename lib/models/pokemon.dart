@@ -25,7 +25,7 @@ class Pokemon {
   final List<String> types;
 
   @HiveField(3)
-  final String image;
+  final String? image;
 
   @HiveField(4)
   final String _color;
@@ -44,13 +44,15 @@ class Pokemon {
     final rawTypes = pokemonJson['types'] as List;
     final types = rawTypes.map<String>((t) => t['type']['name']).toList();
 
+    final genera = speciesJson['genera'];
+
     return Pokemon(
       pokemonJson['id'],
       pokemonJson['name'],
       types,
       pokemonJson['sprites']['other']['official-artwork']['front_default'],
       speciesJson['color']['name'],
-      speciesJson['genera'][7]['genus'],
+      (genera as List).isEmpty ? '' : genera[7]['genus'],
       description,
     );
   }

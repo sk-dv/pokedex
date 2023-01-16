@@ -20,6 +20,14 @@ class PokemonList extends StatelessWidget {
         if (state.pokemonData.isNotEmpty) cubit.updatePokemonData();
       },
       builder: (context, state) {
+        if (state.found.isNotEmpty) {
+          return WrappedPokemonList(
+            state.found,
+            cubit,
+            builder: (int id, Widget child) => child,
+          );
+        }
+
         return WrappedPokemonList(
           state.validData,
           cubit,

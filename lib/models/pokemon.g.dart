@@ -20,7 +20,7 @@ class PokemonAdapter extends TypeAdapter<Pokemon> {
       fields[0] as int,
       fields[1] as String,
       (fields[2] as List).cast<String>(),
-      fields[3] as String,
+      fields[3] as String?,
       fields[4] as String,
       fields[5] as String,
       fields[6] as String,

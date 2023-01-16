@@ -8,17 +8,16 @@ class PokedexState {
     required this.status,
     required this.pokemonData,
     required this.listOffset,
+    required this.found,
   });
 
   final FormzStatus status;
   final List<PokemonData> pokemonData;
   final int listOffset;
+  final List<PokemonData> found;
 
   static const PokedexState empty = PokedexState(
-    status: FormzStatus.pure,
-    pokemonData: [],
-    listOffset: 0,
-  );
+      status: FormzStatus.pure, pokemonData: [], listOffset: 0, found: []);
 
   List<PokemonData> get validData {
     return pokemonData.where((data) => data.pokemon != null).toList();
@@ -32,11 +31,13 @@ class PokedexState {
     FormzStatus? status,
     List<PokemonData>? pokemonData,
     int? listOffset,
+    List<PokemonData>? found,
   }) {
     return PokedexState(
       status: status ?? this.status,
       pokemonData: pokemonData ?? this.pokemonData,
       listOffset: listOffset ?? this.listOffset,
+      found: found ?? this.found,
     );
   }
 }
@@ -109,6 +110,29 @@ class PokedexCubit extends Cubit<PokedexState> {
 
     state.pokemonData[favorite.id] = favorite;
     emit(state.copy(pokemonData: state.pokemonData));
+  }
+
+  void search(String value) async {
+    final found = state.pokemonData.where((data) {
+      try {
+        final id = int.parse(value) - 1;
+        return data.id == id;
+      } catch (e) {
+        return data.pokemonUrl.name.contains(value);
+      }
+    }).toList();
+
+    final updated = <PokemonData>[];
+
+    for (final data in found) {
+      updated.add(await _controller.checkPokemonData(data));
+    }
+
+    emit(state.copy(found: updated, status: FormzStatus.valid));
+  }
+
+  void cleanSearch() {
+    emit(state.copy(found: []));
   }
 }
 

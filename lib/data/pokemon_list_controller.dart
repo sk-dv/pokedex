@@ -33,14 +33,14 @@ class PokemonListController {
     int to,
   ) async {
     for (int idx = from; idx < to; idx += 1) {
-      final updatedPokemon = await _checkPokemonData(data[idx]);
+      final updatedPokemon = await checkPokemonData(data[idx]);
       data[idx] = updatedPokemon;
     }
 
     return data;
   }
 
-  Future<PokemonData> _checkPokemonData(PokemonData data) async {
+  Future<PokemonData> checkPokemonData(PokemonData data) async {
     if (data.pokemon == null) {
       final pokemon = await _repository.getPokemon(data.pokemonUrl.url);
       return await _cache.updatePokemonData(data.copy(pokemon: pokemon));

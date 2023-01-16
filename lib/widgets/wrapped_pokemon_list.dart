@@ -41,19 +41,20 @@ class WrappedPokemonList extends StatelessWidget {
                     context.go('/pokemon', extra: PokemonRouteData(data, menu));
                   },
                 ),
-                Positioned(
-                  right: 12,
-                  bottom: 17,
-                  child: GestureDetector(
-                    child: Image.network(data.pokemon!.image, width: 70),
-                    onTap: () {
-                      context.go(
-                        '/pokemon',
-                        extra: PokemonRouteData(data, menu),
-                      );
-                    },
+                if (data.pokemon!.image != null)
+                  Positioned(
+                    right: 12,
+                    bottom: 17,
+                    child: GestureDetector(
+                      child: Image.network(data.pokemon!.image!, width: 70),
+                      onTap: () {
+                        context.go(
+                          '/pokemon',
+                          extra: PokemonRouteData(data, menu),
+                        );
+                      },
+                    ),
                   ),
-                ),
                 Positioned(
                   right: 7,
                   bottom: 12,

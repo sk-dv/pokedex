@@ -32,6 +32,18 @@ class PokeApiRepository {
     }
   }
 
+  Future<String> _getDescription(String id) async {
+    try {
+      final response = await _dio.get(
+        'https://pokeapi.co/api/v2/characteristic/$id',
+      );
+
+      return response.data['descriptions'][7]['description'];
+    } catch (e) {
+      return '';
+    }
+  }
+
   Future<Pokemon> getPokemon(String url) async {
     final pokemonResponse = await _dio.get(url);
 
@@ -40,14 +52,10 @@ class PokeApiRepository {
     final speciesUrl = data['species']['url'];
     final speciesResponse = await _dio.get(speciesUrl);
 
-    final characteristic = await _dio.get(
-      'https://pokeapi.co/api/v2/characteristic/${data['id']}',
-    );
-
     return Pokemon.fromJson(
       data,
       speciesResponse.data,
-      characteristic.data['descriptions'][7]['description'],
+      await _getDescription(data['id'].toString()),
     );
   }
 }

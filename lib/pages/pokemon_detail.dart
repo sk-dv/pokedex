@@ -103,36 +103,42 @@ class PokemonDetail extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          Text(
-                            route.data.pokemon!.genera,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: route.data.pokemon!.pokemonColor.textColor,
+                          if (route.data.pokemon!.genera.isNotEmpty)
+                            Text(
+                              route.data.pokemon!.genera,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color:
+                                    route.data.pokemon!.pokemonColor.textColor,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ],
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 60),
-                    child: Image.network(route.data.pokemon!.image, width: 250),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 5),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: route.data.pokemon!.pokemonColor.textColor,
-                      borderRadius: BorderRadius.circular(10),
+                  if (route.data.pokemon!.image != null)
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 60),
+                      child:
+                          Image.network(route.data.pokemon!.image!, width: 250),
                     ),
-                    child: Text(
-                      route.data.pokemon!.description,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: route.data.pokemon!.pokemonColor.color,
+                  if (route.data.pokemon!.description.isNotEmpty)
+                    Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: route.data.pokemon!.pokemonColor.textColor,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                  )
+                      child: Text(
+                        route.data.pokemon!.description,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: route.data.pokemon!.pokemonColor.color,
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),
