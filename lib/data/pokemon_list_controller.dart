@@ -50,6 +50,6 @@ class PokemonListController {
   }
 
   Future<PokemonData> markAsFavorite(PokemonData data) {
-    return _cache.updatePokemonData(data.copy(isFavorite: true));
+    return _cache.updatePokemonData(data);
   }
 }

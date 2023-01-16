@@ -40,6 +40,14 @@ class PokeApiRepository {
     final speciesUrl = data['species']['url'];
     final speciesResponse = await _dio.get(speciesUrl);
 
-    return Pokemon.fromJson(data, speciesResponse.data);
+    final characteristic = await _dio.get(
+      'https://pokeapi.co/api/v2/characteristic/${data['id']}',
+    );
+
+    return Pokemon.fromJson(
+      data,
+      speciesResponse.data,
+      characteristic.data['descriptions'][7]['description'],
+    );
   }
 }

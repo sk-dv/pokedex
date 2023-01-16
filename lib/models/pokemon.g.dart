@@ -22,13 +22,15 @@ class PokemonAdapter extends TypeAdapter<Pokemon> {
       (fields[2] as List).cast<String>(),
       fields[3] as String,
       fields[4] as String,
+      fields[5] as String,
+      fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Pokemon obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +40,11 @@ class PokemonAdapter extends TypeAdapter<Pokemon> {
       ..writeByte(3)
       ..write(obj.image)
       ..writeByte(4)
-      ..write(obj._color);
+      ..write(obj._color)
+      ..writeByte(5)
+      ..write(obj.genera)
+      ..writeByte(6)
+      ..write(obj.description);
   }
 
   @override

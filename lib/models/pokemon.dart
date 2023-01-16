@@ -5,7 +5,15 @@ part 'pokemon.g.dart';
 
 @HiveType(typeId: 3)
 class Pokemon {
-  const Pokemon(this.id, this._name, this.types, this.image, this._color);
+  const Pokemon(
+    this.id,
+    this._name,
+    this.types,
+    this.image,
+    this._color,
+    this.genera,
+    this.description,
+  );
 
   @HiveField(0)
   final int id;
@@ -22,19 +30,29 @@ class Pokemon {
   @HiveField(4)
   final String _color;
 
+  @HiveField(5)
+  final String genera;
+
+  @HiveField(6)
+  final String description;
+
   factory Pokemon.fromJson(
     Map<String, dynamic> pokemonJson,
     Map<String, dynamic> speciesJson,
+    String description,
   ) {
     final rawTypes = pokemonJson['types'] as List;
     final types = rawTypes.map<String>((t) => t['type']['name']).toList();
 
-    final image =
-        pokemonJson['sprites']['other']['official-artwork']['front_default'];
-
-    final color = speciesJson['color']['name'];
-
-    return Pokemon(pokemonJson['id'], pokemonJson['name'], types, image, color);
+    return Pokemon(
+      pokemonJson['id'],
+      pokemonJson['name'],
+      types,
+      pokemonJson['sprites']['other']['official-artwork']['front_default'],
+      speciesJson['color']['name'],
+      speciesJson['genera'][7]['genus'],
+      description,
+    );
   }
 
   PokemonColor get pokemonColor => PokemonColor.fromString(_color);

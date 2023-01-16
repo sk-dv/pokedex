@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 part 'pokemon_color.g.dart';
@@ -52,6 +53,24 @@ enum PokemonColor {
         return Colors.yellow;
       default:
         return Colors.transparent;
+    }
+  }
+
+  SystemUiOverlayStyle get statusBarColor {
+    switch (this) {
+      case black:
+      case blue:
+      case brown:
+      case gray:
+      case green:
+      case pink:
+      case purple:
+      case red:
+        return SystemUiOverlayStyle.light;
+      case white:
+      case yellow:
+      default:
+        return SystemUiOverlayStyle.dark;
     }
   }
 

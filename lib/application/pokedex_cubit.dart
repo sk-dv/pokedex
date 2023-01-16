@@ -102,8 +102,10 @@ class PokedexCubit extends Cubit<PokedexState> {
     return reversedId.reversedAsList().join();
   }
 
-  void markAsFavorite(PokemonData data) async {
-    final favorite = await _controller.markAsFavorite(data);
+  void toggleFavorite(PokemonData data) async {
+    final favorite = await _controller.markAsFavorite(
+      data.copy(isFavorite: !data.isFavorite),
+    );
 
     state.pokemonData[favorite.id] = favorite;
     emit(state.copy(pokemonData: state.pokemonData));

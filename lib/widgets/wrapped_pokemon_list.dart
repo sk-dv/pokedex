@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pokedex/application/pokedex_cubit.dart';
+import 'package:pokedex/models/menu.dart';
 import 'package:pokedex/models/pokemon_data.dart';
+import 'package:pokedex/widgets/favorite_icon.dart';
+import 'package:pokedex/widgets/pokemon_route_data.dart';
 
 import 'list_frame.dart';
 import 'pokemon_frame.dart';
@@ -11,6 +15,7 @@ class WrappedPokemonList extends StatelessWidget {
     this.cubit, {
     required this.builder,
     this.isLoading = false,
+    this.menu = Menu.pokedex,
     super.key,
   });
 
@@ -18,6 +23,7 @@ class WrappedPokemonList extends StatelessWidget {
   final PokedexCubit cubit;
   final Widget Function(int id, Widget child) builder;
   final bool isLoading;
+  final Menu menu;
 
   @override
   Widget build(BuildContext context) {
@@ -29,26 +35,31 @@ class WrappedPokemonList extends StatelessWidget {
             data.id,
             Stack(
               children: [
-                PokemonFrame(data),
+                GestureDetector(
+                  child: PokemonFrame(data),
+                  onTap: () {
+                    context.go('/pokemon', extra: PokemonRouteData(data, menu));
+                  },
+                ),
                 Positioned(
                   right: 12,
                   bottom: 17,
-                  child: Image.network(data.pokemon!.image, width: 70),
+                  child: GestureDetector(
+                    child: Image.network(data.pokemon!.image, width: 70),
+                    onTap: () {
+                      context.go(
+                        '/pokemon',
+                        extra: PokemonRouteData(data, menu),
+                      );
+                    },
+                  ),
                 ),
                 Positioned(
                   right: 7,
                   bottom: 12,
-                  child: IconButton(
-                    icon: Icon(
-                      data.isFavorite
-                          ? Icons.favorite_rounded
-                          : Icons.favorite_outline_rounded,
-                    ),
-                    iconSize: 30,
-                    color: data.pokemon!.pokemonColor.textColor,
-                    onPressed: () {
-                      cubit.markAsFavorite(data);
-                    },
+                  child: FavoriteIcon(
+                    data,
+                    onPressed: () => cubit.toggleFavorite(data),
                   ),
                 ),
               ],
