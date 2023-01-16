@@ -20,19 +20,22 @@ class PokemonDataAdapter extends TypeAdapter<PokemonData> {
       id: fields[0] as int,
       pokemonUrl: fields[1] as PokemonUrl,
       pokemon: fields[2] as Pokemon?,
+      isFavorite: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, PokemonData obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.pokemonUrl)
       ..writeByte(2)
-      ..write(obj.pokemon);
+      ..write(obj.pokemon)
+      ..writeByte(3)
+      ..write(obj.isFavorite);
   }
 
   @override

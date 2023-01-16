@@ -55,6 +55,24 @@ enum PokemonColor {
     }
   }
 
+  Color get textColor {
+    switch (this) {
+      case black:
+      case blue:
+      case brown:
+      case gray:
+      case green:
+      case pink:
+      case purple:
+      case red:
+        return Colors.white;
+      case white:
+      case yellow:
+      default:
+        return Colors.black;
+    }
+  }
+
   factory PokemonColor.fromString(String color) {
     switch (color) {
       case 'black':

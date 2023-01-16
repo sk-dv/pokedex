@@ -6,8 +6,12 @@ part 'pokemon_data.g.dart';
 
 @HiveType(typeId: 1)
 class PokemonData {
-  const PokemonData(
-      {required this.id, required this.pokemonUrl, required this.pokemon});
+  const PokemonData({
+    required this.id,
+    required this.pokemonUrl,
+    required this.pokemon,
+    required this.isFavorite,
+  });
 
   @HiveField(0)
   final int id;
@@ -18,11 +22,24 @@ class PokemonData {
   @HiveField(2)
   final Pokemon? pokemon;
 
+  @HiveField(3)
+  final bool isFavorite;
+
   factory PokemonData.fromJson(int index, Map<String, dynamic> json) {
     return PokemonData(
-        id: index, pokemonUrl: PokemonUrl.fromJson(json), pokemon: null);
+      id: index,
+      pokemonUrl: PokemonUrl.fromJson(json),
+      pokemon: null,
+      isFavorite: false,
+    );
   }
 
-  PokemonData copyPokemon(Pokemon pokemon) =>
-      PokemonData(id: id, pokemonUrl: pokemonUrl, pokemon: pokemon);
+  PokemonData copy({Pokemon? pokemon, bool? isFavorite}) {
+    return PokemonData(
+      id: id,
+      pokemonUrl: pokemonUrl,
+      pokemon: pokemon ?? this.pokemon,
+      isFavorite: isFavorite ?? this.isFavorite,
+    );
+  }
 }

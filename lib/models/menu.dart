@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/application/pokedex_cubit.dart';
+import 'package:pokedex/widgets/favorites_content.dart';
+import 'package:pokedex/widgets/pokemon_list.dart';
 
 enum Menu {
   pokedex,
-  favourites;
+  favorites;
 
   String get name {
     switch (this) {
       case Menu.pokedex:
         return 'Poxedex';
-      case Menu.favourites:
-        return 'Favourites';
+      case Menu.favorites:
+        return 'Favorites';
     }
   }
 
@@ -21,7 +24,7 @@ enum Menu {
     switch (this) {
       case Menu.pokedex:
         return const Color(0xFFFFCE4B);
-      case Menu.favourites:
+      case Menu.favorites:
         return const Color(0xFFFF5B5B);
     }
   }
@@ -30,8 +33,17 @@ enum Menu {
     switch (this) {
       case Menu.pokedex:
         return 'assets/pokedex.svg';
-      case Menu.favourites:
+      case Menu.favorites:
         return 'assets/favorites.svg';
+    }
+  }
+
+  Widget content(PokedexCubit cubit) {
+    switch (this) {
+      case Menu.pokedex:
+        return PokemonList(cubit);
+      case Menu.favorites:
+        return FavoritesList(cubit);
     }
   }
 }

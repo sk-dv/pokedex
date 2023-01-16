@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pokedex/application/pokemon_list_cubit.dart';
+import 'package:formz/formz.dart';
+import 'package:pokedex/application/pokedex_cubit.dart';
+import 'package:pokedex/data/pokedex_cache.dart';
 import 'package:pokedex/data/pokedex_locator.dart';
 import 'package:pokedex/data/pokemon_list_controller.dart';
 import 'package:pokedex/models/menu.dart';
+import 'package:pokedex/widgets/persistent_title.dart';
 import 'package:pokedex/widgets/pokedex_navbar.dart';
 import 'package:pokedex/widgets/pokemon_list.dart';
 
@@ -31,41 +34,41 @@ class _PokedexState extends State<Pokedex> {
                 .copyWith(statusBarColor: Colors.transparent),
             elevation: 0,
           ),
-          body: Container(
-            margin: const EdgeInsets.all(30),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    current.name,
-                    style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0.5,
+          body: BlocProvider(
+            create: (_) => PokedexCubit(
+              PokedexLocator.locator.get<PokemonListController>(),
+            )..cacheChecking(),
+            child: Builder(builder: (context) {
+              return Container(
+                padding: const EdgeInsets.all(30),
+                child: CustomScrollView(
+                  slivers: [
+                    SliverPersistentHeader(
+                      pinned: true,
+                      floating: true,
+                      delegate: PersistentTitle(current.name),
                     ),
-                  ),
-                  BlocProvider(
-                    create: (_) => PokemonListCubit(
-                      PokedexLocator.locator.get<PokemonListController>(),
-                    )..cacheChecking(),
-                    child: const PokemonList(),
-                  ),
-                ],
-              ),
-            ),
+                    SliverToBoxAdapter(
+                      child: current.content(context.read<PokedexCubit>()),
+                    ),
+                  ],
+                ),
+              );
+            }),
           ),
           bottomNavigationBar: PokedexNavbar(
             current,
             onPokedex: () => setState(() => current = Menu.pokedex),
-            onFavourites: () => setState(() => current = Menu.favourites),
+            onFavorites: () => setState(() => current = Menu.favorites),
           ),
         ),
         Positioned(
           top: 0,
           right: 0,
-          child: SvgPicture.asset('assets/pokeball.svg',
-              color: const Color(0xFF303943)),
+          child: SvgPicture.asset(
+            'assets/pokeball.svg',
+            color: const Color(0xFF303943),
+          ),
         ),
       ],
     );

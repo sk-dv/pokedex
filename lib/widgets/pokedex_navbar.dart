@@ -5,11 +5,11 @@ import 'package:pokedex/widgets/menu_option.dart';
 
 class PokedexNavbar extends StatelessWidget {
   const PokedexNavbar(this.current,
-      {super.key, required this.onPokedex, required this.onFavourites});
+      {super.key, required this.onPokedex, required this.onFavorites});
 
   final Menu current;
   final void Function() onPokedex;
-  final void Function() onFavourites;
+  final void Function() onFavorites;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,8 @@ class PokedexNavbar extends StatelessWidget {
         children: [
           MenuOption(Menu.pokedex,
               enableOption: current == Menu.pokedex, onTap: onPokedex),
-          MenuOption(Menu.favourites,
-              enableOption: current == Menu.favourites, onTap: onFavourites),
+          MenuOption(Menu.favorites,
+              enableOption: current == Menu.favorites, onTap: onFavorites),
         ],
       ),
     );

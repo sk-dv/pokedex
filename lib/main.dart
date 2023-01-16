@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pokedex/data/pokedex_locator.dart';
 
@@ -7,9 +6,6 @@ import 'pages/pokedex.dart';
 
 void main() async {
   await PokedexLocator.setup();
-
-  // debugPaintSizeEnabled = true;
-
   runApp(const PokedexApp());
 }
 
@@ -30,6 +26,13 @@ class PokedexApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-        routerConfig: _router, debugShowCheckedModeBanner: false);
+      routerConfig: _router,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          secondary: Colors.transparent.withOpacity(0.1),
+        ),
+      ),
+    );
   }
 }

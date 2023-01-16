@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:pokedex/models/pokemon_color.dart';
 
@@ -24,7 +23,9 @@ class Pokemon {
   final String _color;
 
   factory Pokemon.fromJson(
-      Map<String, dynamic> pokemonJson, Map<String, dynamic> speciesJson) {
+    Map<String, dynamic> pokemonJson,
+    Map<String, dynamic> speciesJson,
+  ) {
     final rawTypes = pokemonJson['types'] as List;
     final types = rawTypes.map<String>((t) => t['type']['name']).toList();
 
@@ -36,7 +37,7 @@ class Pokemon {
     return Pokemon(pokemonJson['id'], pokemonJson['name'], types, image, color);
   }
 
-  Color get color => PokemonColor.fromString(_color).color;
+  PokemonColor get pokemonColor => PokemonColor.fromString(_color);
 
   String get name =>
       _name.substring(0, 1).toUpperCase() + _name.substring(1, _name.length);

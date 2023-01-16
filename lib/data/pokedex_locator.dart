@@ -9,8 +9,9 @@ class PokedexLocator {
   static GetIt locator = GetIt.instance;
 
   static Future<void> setup() async {
-    const String pokemonKey = 'Pokedex:PokemonUrl:Box';
-    final cache = await PokedexCache.init(pokemonKey);
+    final cache = await PokedexCache.init;
+
+    locator.registerFactory<PokedexCache>(() => cache);
 
     locator.registerFactory<PokemonListController>(
         () => PokemonListController(PokeApiRepository(Dio()), cache));

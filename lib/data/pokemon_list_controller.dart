@@ -9,6 +9,14 @@ class PokemonListController {
 
   const PokemonListController(this._repository, this._cache);
 
+  Future<int> getListOffset() async {
+    return _cache.getOffset();
+  }
+
+  Future<void> saveListOffset(int offset) async {
+    await _cache.updateOffset(offset);
+  }
+
   Future<List<PokemonData>> cacheChecking() async {
     final data = await _cache.readPokemonDataList();
     if (data.isNotEmpty) return data;
@@ -19,8 +27,11 @@ class PokemonListController {
     return retrievedData;
   }
 
-  Future<List<PokemonData>> retrievePokemonData(List<PokemonData> data,
-      [int from = 0, int to = 25]) async {
+  Future<List<PokemonData>> retrievePokemonData(
+    List<PokemonData> data,
+    int from,
+    int to,
+  ) async {
     for (int idx = from; idx < to; idx += 1) {
       final updatedPokemon = await _checkPokemonData(data[idx]);
       data[idx] = updatedPokemon;
@@ -32,9 +43,13 @@ class PokemonListController {
   Future<PokemonData> _checkPokemonData(PokemonData data) async {
     if (data.pokemon == null) {
       final pokemon = await _repository.getPokemon(data.pokemonUrl.url);
-      return await _cache.updatePokemonData(data.id, pokemon);
+      return await _cache.updatePokemonData(data.copy(pokemon: pokemon));
     } else {
       return await _cache.getPokemonData(data.id);
     }
+  }
+
+  Future<PokemonData> markAsFavorite(PokemonData data) {
+    return _cache.updatePokemonData(data.copy(isFavorite: true));
   }
 }
