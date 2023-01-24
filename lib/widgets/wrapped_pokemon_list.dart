@@ -5,9 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pokedex/application/pokedex_cubit.dart';
 import 'package:pokedex/models/menu.dart';
 import 'package:pokedex/models/pokemon_data.dart';
-import 'package:pokedex/widgets/favorite_icon.dart';
 import 'package:pokedex/widgets/pokemon_route_data.dart';
-import 'list_frame.dart';
 import 'pokemon_frame.dart';
 
 class WrappedPokemonList extends StatelessWidget {
@@ -15,7 +13,6 @@ class WrappedPokemonList extends StatelessWidget {
     this.items,
     this.cubit, {
     required this.builder,
-    this.isLoading = false,
     this.menu = Menu.pokedex,
     super.key,
   });
@@ -23,7 +20,6 @@ class WrappedPokemonList extends StatelessWidget {
   final List<PokemonData> items;
   final PokedexCubit cubit;
   final Widget Function(int id, Widget child) builder;
-  final bool isLoading;
   final Menu menu;
 
   @override
@@ -63,15 +59,6 @@ class WrappedPokemonList extends StatelessWidget {
               ),
             );
           }).toList(),
-          if (isLoading)
-            const ListFrame(
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: Colors.black,
-                  strokeWidth: 2,
-                ),
-              ),
-            ),
         ],
       ),
     );

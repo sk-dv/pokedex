@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -14,6 +16,11 @@ class PokedexLocator {
     locator.registerFactory<PokedexCache>(() => cache);
 
     locator.registerFactory<PokemonListController>(
-        () => PokemonListController(PokeApiRepository(Dio()), cache));
+      () => PokemonListController(
+        PokeApiRepository(Dio()),
+        cache,
+        StreamController<double>(),
+      ),
+    );
   }
 }

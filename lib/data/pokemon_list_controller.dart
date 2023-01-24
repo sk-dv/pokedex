@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:pokedex/data/pokedex_cache.dart';
 import 'package:pokedex/models/pokemon_data.dart';
 import 'pokeapi_repository.dart';
@@ -5,8 +7,15 @@ import 'pokeapi_repository.dart';
 class PokemonListController {
   final PokeApiRepository _repository;
   final PokedexCache _cache;
+  final StreamController<double> _progressController;
 
-  const PokemonListController(this._repository, this._cache);
+  const PokemonListController(
+    this._repository,
+    this._cache,
+    this._progressController,
+  );
+
+  Stream<double> get progress => _progressController.stream;
 
   Future<int> getListOffset() async {
     return _cache.getOffset();
@@ -31,9 +40,14 @@ class PokemonListController {
     int from,
     int to,
   ) async {
+    int progressIdx = 1;
+
     for (int idx = from; idx < to; idx += 1) {
       final updatedPokemon = await checkPokemonData(data[idx]);
       data[idx] = updatedPokemon;
+
+      _progressController.sink.add(progressIdx / 25);
+      progressIdx += 1;
     }
 
     return data;

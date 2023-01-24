@@ -35,29 +35,58 @@ class _PokedexState extends State<Pokedex> {
       children: [
         Scaffold(
           appBar: AppBar(
+            elevation: 0,
             shadowColor: Colors.transparent,
             backgroundColor: Colors.transparent,
-            systemOverlayStyle: SystemUiOverlayStyle.dark
-                .copyWith(statusBarColor: Colors.transparent),
-            elevation: 0,
+            systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
+              statusBarColor: Colors.transparent,
+            ),
           ),
-          body: Builder(builder: (context) {
-            return Container(
-              padding: const EdgeInsets.all(20),
-              child: CustomScrollView(
-                slivers: [
-                  SliverPersistentHeader(
-                    pinned: true,
-                    floating: true,
-                    delegate: PersistentTitle(current.name),
-                  ),
-                  SliverToBoxAdapter(
-                    child: current.content(context.read<PokedexCubit>()),
-                  ),
-                ],
-              ),
-            );
-          }),
+          body: Container(
+            padding: const EdgeInsets.all(20),
+            child: BlocConsumer<PokedexCubit, PokedexState>(
+              listenWhen: (prev, next) {
+                return prev.pokemonData.length != next.pokemonData.length;
+              },
+              listener: (context, state) {
+                if (state.pokemonData.isNotEmpty) {
+                  context.read<PokedexCubit>().updatePokemonData();
+                }
+              },
+              builder: (context, state) {
+                if (state.progress != 1) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Loading pokemon...'),
+                      const SizedBox(height: 20),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          backgroundColor: Colors.white,
+                          color: Colors.black,
+                          value: state.progress,
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return CustomScrollView(
+                  slivers: [
+                    SliverPersistentHeader(
+                      pinned: true,
+                      floating: true,
+                      delegate: PersistentTitle(current.name),
+                    ),
+                    SliverToBoxAdapter(
+                      child: current.content(context.read<PokedexCubit>()),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
           floatingActionButton: BlocBuilder<PokedexCubit, PokedexState>(
             builder: (context, state) {
               return Row(

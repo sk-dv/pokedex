@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'package:pokedex/application/pokedex_cubit.dart';
@@ -14,13 +13,7 @@ class PokemonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PokedexCubit, PokedexState>(
-      listenWhen: (prev, next) {
-        return prev.pokemonData.length != next.pokemonData.length;
-      },
-      listener: (context, state) {
-        if (state.pokemonData.isNotEmpty) cubit.updatePokemonData();
-      },
+    return BlocBuilder<PokedexCubit, PokedexState>(
       builder: (context, state) {
         if (state.found.isNotEmpty) {
           return WrappedPokemonList(
@@ -33,7 +26,6 @@ class PokemonList extends StatelessWidget {
         return WrappedPokemonList(
           state.validData,
           cubit,
-          isLoading: state.status.isSubmissionInProgress,
           builder: (int id, Widget child) {
             return VisibilityDetector(
               key: Key('PokemonList_$id'),

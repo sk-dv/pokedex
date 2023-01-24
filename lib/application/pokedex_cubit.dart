@@ -1,24 +1,27 @@
 import 'package:bloc/bloc.dart';
-import 'package:formz/formz.dart';
 
 import 'package:pokedex/data/pokemon_list_controller.dart';
 import 'package:pokedex/models/pokemon_data.dart';
 
 class PokedexState {
   const PokedexState({
-    required this.status,
     required this.pokemonData,
     required this.listOffset,
     required this.found,
+    required this.progress,
   });
 
-  final FormzStatus status;
   final List<PokemonData> pokemonData;
   final int listOffset;
   final List<PokemonData> found;
+  final double progress;
 
   static const PokedexState empty = PokedexState(
-      status: FormzStatus.pure, pokemonData: [], listOffset: 0, found: []);
+    pokemonData: [],
+    listOffset: 0,
+    found: [],
+    progress: 0.0,
+  );
 
   List<PokemonData> get validData {
     return pokemonData.where((data) => data.pokemon != null).toList();
@@ -29,33 +32,35 @@ class PokedexState {
   }
 
   PokedexState copy({
-    FormzStatus? status,
     List<PokemonData>? pokemonData,
     int? listOffset,
     List<PokemonData>? found,
+    double? progress,
   }) {
     return PokedexState(
-      status: status ?? this.status,
       pokemonData: pokemonData ?? this.pokemonData,
       listOffset: listOffset ?? this.listOffset,
       found: found ?? this.found,
+      progress: progress ?? this.progress,
     );
   }
 }
 
 class PokedexCubit extends Cubit<PokedexState> {
-  PokedexCubit(this._controller) : super(PokedexState.empty);
+  PokedexCubit(this._controller) : super(PokedexState.empty) {
+    _controller.progress.listen((progress) {
+      // print('progress: $progress');
+      emit(state.copy(progress: progress));
+    });
+  }
 
   final PokemonListController _controller;
 
   void cacheChecking() async {
-    emit(state.copy(status: FormzStatus.submissionInProgress));
-
     final data = await _controller.cacheChecking();
     final offset = await _controller.getListOffset();
 
     emit(state.copy(
-      status: data.isNotEmpty ? FormzStatus.valid : FormzStatus.invalid,
       pokemonData: data,
       listOffset: offset,
     ));
@@ -79,18 +84,13 @@ class PokedexCubit extends Cubit<PokedexState> {
       emit(state.copy(listOffset: offset));
     }
 
-    emit(state.copy(status: FormzStatus.submissionInProgress));
-
     final data = await _controller.retrievePokemonData(
       state.pokemonData,
       state.listOffset,
       state.listOffset + 25,
     );
 
-    emit(state.copy(
-      pokemonData: data,
-      status: data.isNotEmpty ? FormzStatus.valid : FormzStatus.invalid,
-    ));
+    emit(state.copy(pokemonData: data, progress: null));
   }
 
   String getPokemonIndex(int id) {
@@ -129,7 +129,7 @@ class PokedexCubit extends Cubit<PokedexState> {
       updated.add(await _controller.checkPokemonData(data));
     }
 
-    emit(state.copy(found: updated, status: FormzStatus.valid));
+    emit(state.copy(found: updated));
   }
 
   void cleanSearch() {
