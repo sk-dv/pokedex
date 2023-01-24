@@ -14,32 +14,39 @@ class PokemonFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListFrame(
-      color: data.pokemon!.pokemonColor.color.withOpacity(0.7),
+      color: data.pokemon!.pokemonColor.color,
       child: Column(
         children: [
-          Container(
-            alignment: Alignment.centerRight,
-            child: Text(
-              context.read<PokedexCubit>().getPokemonIndex(data.id + 1),
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: data.pokemon!.pokemonColor.textColor.withOpacity(0.5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  data.pokemon!.name,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: data.pokemon!.pokemonColor.textColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
               ),
-              textAlign: TextAlign.right,
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              data.pokemon!.name,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: data.pokemon!.pokemonColor.textColor,
+              Container(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  context.read<PokedexCubit>().getPokemonIndex(data.id + 1),
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color:
+                        data.pokemon!.pokemonColor.textColor.withOpacity(0.5),
+                  ),
+                  textAlign: TextAlign.right,
+                ),
               ),
-              textAlign: TextAlign.left,
-            ),
+            ],
           ),
           const SizedBox(height: 5),
           Container(
@@ -50,21 +57,14 @@ class PokemonFrame extends StatelessWidget {
                 return Container(
                   margin: const EdgeInsets.only(bottom: 3),
                   padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    color: data.pokemon!.pokemonColor.textColor,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Text(
-                    type,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: data.pokemon!.pokemonColor.color,
-                    ),
+                  child: Image.asset(
+                    'assets/types/$type.png',
+                    width: 20,
                   ),
                 );
               }).toList(),
             ),
-          ),
+          )
         ],
       ),
     );

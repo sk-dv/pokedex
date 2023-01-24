@@ -35,6 +35,7 @@ flutter:
 
   assets:
     - 'assets/'
+    - 'assets/types/'
 
 import_sorter:
   comments: false

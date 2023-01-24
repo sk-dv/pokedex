@@ -31,30 +31,31 @@ enum PokemonColor {
   none;
 
   Color get color {
-    switch (this) {
-      case black:
-        return Colors.black;
-      case blue:
-        return Colors.blue;
-      case brown:
-        return Colors.brown;
-      case gray:
-        return Colors.grey;
-      case green:
-        return Colors.green;
-      case pink:
-        return Colors.pink;
-      case purple:
-        return Colors.purple;
-      case red:
-        return Colors.red;
-      case white:
-        return Colors.white;
-      case yellow:
-        return Colors.yellow;
-      default:
-        return Colors.transparent;
-    }
+    return Colors.transparent;
+    // switch (this) {
+    //   case black:
+    //     return Colors.black;
+    //   case blue:
+    //     return Colors.blue;
+    //   case brown:
+    //     return Colors.brown;
+    //   case gray:
+    //     return Colors.grey;
+    //   case green:
+    //     return Colors.green;
+    //   case pink:
+    //     return Colors.pink;
+    //   case purple:
+    //     return Colors.purple;
+    //   case red:
+    //     return Colors.red;
+    //   case white:
+    //     return Colors.white;
+    //   case yellow:
+    //     return Colors.yellow;
+    //   default:
+    //     return Colors.transparent;
+    // }
   }
 
   SystemUiOverlayStyle get statusBarColor {
@@ -76,21 +77,22 @@ enum PokemonColor {
   }
 
   Color get textColor {
-    switch (this) {
-      case black:
-      case blue:
-      case brown:
-      case gray:
-      case green:
-      case pink:
-      case purple:
-      case red:
-        return Colors.white;
-      case white:
-      case yellow:
-      default:
-        return Colors.black;
-    }
+    return Colors.black;
+    // switch (this) {
+    //   case black:
+    //   case blue:
+    //   case brown:
+    //   case gray:
+    //   case green:
+    //   case pink:
+    //   case purple:
+    //   case red:
+    //     return Colors.white;
+    //   case white:
+    //   case yellow:
+    //   default:
+    //     return Colors.black;
+    // }
   }
 
   factory PokemonColor.fromString(String color) {

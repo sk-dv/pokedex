@@ -15,10 +15,10 @@ class ListFrame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: context.width * 0.40,
-      height: context.height * 0.15,
+      width: context.width * 0.4,
+      height: context.height * 0.2,
       margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: color,
