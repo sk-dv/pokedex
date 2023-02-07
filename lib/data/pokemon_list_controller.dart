@@ -30,6 +30,7 @@ class PokemonListController {
     if (data.isNotEmpty) return data;
 
     final retrievedData = await _repository.loadingPokemonUrls();
+
     await _cache.writePokemonDataList(retrievedData);
 
     return retrievedData;

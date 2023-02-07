@@ -1,13 +1,32 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 
 import 'package:pokedex/models/pokeapi_response.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_data.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PokeApiRepository {
   const PokeApiRepository(this._dio);
 
   final Dio _dio;
+
+  Future<File?> convertEndpointToFile(String name, String? path) async {
+    if (path == null) return null;
+
+    final response = await _dio.get(
+      path,
+      options: Options(responseType: ResponseType.bytes),
+    );
+
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File(join(directory.path, '$name.png'));
+    file.writeAsBytesSync(response.data);
+
+    return file;
+  }
 
   Future<List<PokemonData>> loadingPokemonUrls({
     String url = 'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=100',
