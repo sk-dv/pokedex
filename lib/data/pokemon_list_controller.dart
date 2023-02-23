@@ -43,11 +43,21 @@ class PokemonListController {
   ) async {
     int progressIdx = 1;
 
+    /// rango tomado de los últimos valores almacenados. es decir, la cuenta
+    /// será de los próximos valores a recuperar.
     for (int idx = from; idx < to; idx += 1) {
+      /// verifica si la información esta almacenada o deba ser recuperada.
       final updatedPokemon = await checkPokemonData(data[idx]);
+
+      /// actualiza la información recuperada.
       data[idx] = updatedPokemon;
 
+      /// hace la división entre el contador del progreso actual y el número
+      /// fijo de objetos a recuperar: {25}.
       _progressController.sink.add(progressIdx / 25);
+
+      /// va aumentando el contador para ir aumentando el progreso de
+      /// información recuperada.
       progressIdx += 1;
     }
 

@@ -19,8 +19,14 @@ class PokeApiResponse {
     final results = List.from(json['results']);
     final data = <PokemonData>[];
 
+    /// con los limites {offset} y {limit} se determine en que rango de números
+    /// se va a iterar.
     for (int idx = offset; idx < offset + limit; idx += 1) {
-      data.add(PokemonData.fromJson(idx, results[idx - offset]));
+      data.add(PokemonData.fromJson(
+        /// {PokemonData} obtiene como {id} el índice actual.
+        idx,
+        results[idx - offset],
+      ));
     }
 
     return PokeApiResponse._(

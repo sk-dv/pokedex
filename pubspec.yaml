@@ -22,6 +22,7 @@ dependencies:
   formz: ^0.4.1
   visibility_detector: ^0.3.3
   import_sorter: ^4.6.0
+  path_provider: ^2.0.13
 
 dev_dependencies:
   flutter_test:

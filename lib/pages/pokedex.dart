@@ -43,6 +43,7 @@ class _PokedexState extends State<Pokedex> {
             ),
           ),
           body: Container(
+            alignment: Alignment.center,
             padding: const EdgeInsets.all(20),
             child: BlocConsumer<PokedexCubit, PokedexState>(
               listenWhen: (prev, next) {
@@ -60,13 +61,10 @@ class _PokedexState extends State<Pokedex> {
                     children: [
                       const Text('Loading pokemon...'),
                       const SizedBox(height: 20),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.white,
-                          color: Colors.black,
-                          value: state.progress,
-                        ),
+                      CircularProgressIndicator(
+                        backgroundColor: Colors.white,
+                        color: Colors.black,
+                        value: state.progress,
                       ),
                     ],
                   );

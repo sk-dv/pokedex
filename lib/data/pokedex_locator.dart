@@ -22,5 +22,11 @@ class PokedexLocator {
         StreamController<double>(),
       ),
     );
+
+    locator.registerLazySingletonAsync<ImageDownloader>(
+      () => ImageDownloader.setup(),
+    );
+
+    await locator.isReady<ImageDownloader>();
   }
 }

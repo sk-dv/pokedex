@@ -35,10 +35,13 @@ class PokeApiRepository {
     try {
       final response = await _dio.get(url);
 
+      /// obtiene los limites mediante la url
       final boundaries = url.split('?')[1].split('&');
       final offset = int.parse(boundaries[0].split('=')[1]);
       final limit = int.parse(boundaries[1].split('=')[1]);
 
+      /// los limites se envían con la intención de actualizar los índices
+      /// conforme se va iterando
       final api = PokeApiResponse.fromJson(offset, limit, response.data);
 
       if (api.next == null) return data;
