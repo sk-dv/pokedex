@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:pokedex/application/pokedex_cubit.dart';
-import 'package:pokedex/data/pokedex_cache.dart';
+import 'package:pokedex/data/image_downloader.dart';
 import 'package:pokedex/data/pokedex_locator.dart';
 import 'package:pokedex/models/menu.dart';
 import 'package:pokedex/models/pokemon_data.dart';

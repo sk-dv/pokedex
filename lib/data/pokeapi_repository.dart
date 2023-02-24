@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:pokedex/data/pokedex_cache.dart';
 import 'package:pokedex/data/pokedex_locator.dart';
 import 'package:pokedex/models/pokeapi_response.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_data.dart';
+import 'image_downloader.dart';
 
 class PokeApiRepository {
   const PokeApiRepository(this._dio);
