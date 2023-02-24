@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:pokedex/application/pokedex_cubit.dart';
+import 'package:pokedex/data/pokedex_cache.dart';
+import 'package:pokedex/data/pokedex_locator.dart';
 import 'package:pokedex/models/extended_build_context.dart';
 import 'package:pokedex/widgets/favorite_icon.dart';
 import 'package:pokedex/widgets/pokemon_route_data.dart';
@@ -15,6 +19,13 @@ class PokemonDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    File? file;
+
+    if (route.data.pokemon!.image != null) {
+      final downloader = PokedexLocator.locator.get<ImageDownloader>();
+      file = downloader.readImage(route.data.pokemon!.image!);
+    }
+
     return WillPopScope(
       onWillPop: () async {
         context.go('/', extra: route.menu);
@@ -119,11 +130,10 @@ class PokemonDetail extends StatelessWidget {
                       ),
                     ],
                   ),
-                  if (route.data.pokemon!.image != null)
+                  if (file != null)
                     Container(
                       margin: const EdgeInsets.symmetric(vertical: 60),
-                      child:
-                          Image.network(route.data.pokemon!.image!, width: 250),
+                      child: Image.file(file, width: 250),
                     ),
                   if (route.data.pokemon!.description.isNotEmpty)
                     Container(

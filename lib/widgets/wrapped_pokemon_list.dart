@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
 import 'package:pokedex/application/pokedex_cubit.dart';
+import 'package:pokedex/data/pokedex_cache.dart';
+import 'package:pokedex/data/pokedex_locator.dart';
 import 'package:pokedex/models/menu.dart';
 import 'package:pokedex/models/pokemon_data.dart';
 import 'package:pokedex/widgets/pokemon_route_data.dart';
@@ -30,6 +34,13 @@ class WrappedPokemonList extends StatelessWidget {
         spacing: 25,
         children: [
           ...items.map((data) {
+            File? file;
+
+            if (data.pokemon!.image != null) {
+              final downloader = PokedexLocator.locator.get<ImageDownloader>();
+              file = downloader.readImage(data.pokemon!.image!);
+            }
+
             return builder(
               data.id,
               Stack(
@@ -41,12 +52,12 @@ class WrappedPokemonList extends StatelessWidget {
                           extra: PokemonRouteData(data, menu));
                     },
                   ),
-                  if (data.pokemon!.image != null)
+                  if (file != null)
                     Positioned(
                       right: 12,
                       bottom: 17,
                       child: GestureDetector(
-                        child: Image.network(data.pokemon!.image!, width: 80),
+                        child: Image.file(file, width: 80),
                         onTap: () {
                           context.go(
                             '/pokemon',

@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pokedex/data/pokedex_locator.dart';
 
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_color.dart';
@@ -46,7 +44,6 @@ class PokedexCache {
   Future<List<PokemonData>> readPokemonDataList() async {
     final box = await Hive.openBox<PokemonData>(pokedexKey);
     final values = box.values.toList();
-
     await box.close();
     return values;
   }
@@ -79,38 +76,34 @@ class PokedexCache {
   Future<PokemonData> getPokemonData(int idx) async {
     final box = await Hive.openBox<PokemonData>(pokedexKey);
     final data = box.values.where((data) => data.id == idx).first;
-
-    final file = await PokedexLocator.locator
-        .get<ImageDownloader>()
-        .saveImage(data.pokemon!.name, data.pokemon!.image!);
-
-    print(file);
     await box.close();
     return data;
   }
 }
 
 class ImageDownloader {
-  const ImageDownloader._(this.imagePath);
+  const ImageDownloader._(this._imagePath);
 
-  final String imagePath;
+  final String _imagePath;
 
   static Future<ImageDownloader> setup() async {
     final directory = await getApplicationDocumentsDirectory();
 
-    final path = '${directory.path}/image';
+    final path = '${directory.path}/images';
     final imageDirectory = await Directory(path).create(recursive: true);
 
     return ImageDownloader._(imageDirectory.path);
   }
 
-  Future<File> saveImage(String name, String url) async {
+  Future<String> saveImage(String name, String url) async {
     final options = Options(responseType: ResponseType.bytes);
     final response = await Dio().get(url, options: options);
 
-    final file = File('$imagePath/$name');
+    final file = File('$_imagePath/$name');
     file.writeAsBytesSync(response.data);
 
-    return file;
+    return file.path;
   }
+
+  File readImage(String filePath) => File(filePath);
 }

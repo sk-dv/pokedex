@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
+import 'package:pokedex/data/pokedex_cache.dart';
+import 'package:pokedex/data/pokedex_locator.dart';
 import 'package:pokedex/models/pokeapi_response.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon_data.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 
 class PokeApiRepository {
   const PokeApiRepository(this._dio);
@@ -75,10 +77,16 @@ class PokeApiRepository {
     final speciesUrl = data['species']['url'];
     final speciesResponse = await _dio.get(speciesUrl);
 
+    final path = data['sprites']['other']['official-artwork']['front_default'];
+
+    final downloader = PokedexLocator.locator<ImageDownloader>();
+    final file = await downloader.saveImage(data['name'], path);
+
     return Pokemon.fromJson(
       data,
       speciesResponse.data,
       await _getDescription(data['id'].toString()),
+      file,
     );
   }
 }

@@ -41,6 +41,7 @@ class Pokemon {
     Map<String, dynamic> pokemonJson,
     Map<String, dynamic> speciesJson,
     String description,
+    String? filePath,
   ) {
     final rawTypes = pokemonJson['types'] as List;
     final types = rawTypes.map<String>((t) => t['type']['name']).toList();
@@ -51,7 +52,7 @@ class Pokemon {
       pokemonJson['id'],
       pokemonJson['name'],
       types,
-      pokemonJson['sprites']['other']['official-artwork']['front_default'],
+      filePath,
       speciesJson['color']['name'],
       (genera as List).isEmpty ? '' : genera[7]['genus'],
       description,
